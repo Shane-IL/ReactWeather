@@ -1,9 +1,18 @@
+const webpack = require('webpack');
+
+const PROD = (process.env.NODE_ENV === 'production');
+
 module.exports = {
     entry: './app/app.jsx',
     output: {
         path: __dirname,
-        filename: './public/bundle.js'
+        filename: PROD ? './public/bundle.min.js' : './public/bundle.js'
     },
+    plugins: PROD ? [
+        new webpack.optimize.UglifyJsPlugin({
+            compress: { warnings: false }
+        })
+    ] : [],
     resolve: {
         root: __dirname,
         alias: {
