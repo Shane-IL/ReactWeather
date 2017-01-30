@@ -1,25 +1,19 @@
 const webpack = require('webpack');
 
-const PROD = (process.env.NODE_ENV === 'production');
-
 module.exports = {
-    entry: ['script!jquery/dist/jquery.min.js', 'script!foundation-sites/dist/js/foundation.min.js','./app/app.jsx'],
+    entry: [
+        'script!jquery/dist/jquery.min.js',
+        'script!foundation-sites/dist/js/foundation.min.js',
+        './app/app.jsx'
+    ],
     externals: {
         jquery: 'jQuery'
     },
     output: {
         path: __dirname,
-        filename: PROD ? './public/bundle.min.js' : './public/bundle.js'
+        filename: './public/bundle.js'
     },
-    plugins: PROD ? [
-        new webpack.ProvidePlugin({
-            '$': 'jquery',
-            'jQuery': 'jquery'
-        }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: { warnings: false }
-        })
-    ] : [
+    plugins: [
         new webpack.ProvidePlugin({
             '$': 'jquery',
             'jQuery': 'jquery'
