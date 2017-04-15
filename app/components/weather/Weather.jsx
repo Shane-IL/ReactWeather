@@ -13,7 +13,7 @@ export default class Weather extends React.Component{
     }
     handleSearch = (location) => {
         let _this = this
-        _this.setState({isLoading: true, errorMessage: undefined});
+        _this.setState({isLoading: true, errorMessage: undefined, location: undefined, temp: undefined});
 
         openWeatherMap.getTemp(location).then(temp=>{
             this.setState({
@@ -27,6 +27,22 @@ export default class Weather extends React.Component{
                 errorMessage: error.message
             });
         })
+    }
+    componentDidMount() {
+        const location = this.props.location.query.location;
+
+        if(location && location.length > 0){
+            this.handleSearch(location);
+            window.location.hash = '#/';
+        }
+    }
+    componentWillReceiveProps(newProps) {
+        const location = newProps.location.query.location;
+
+        if(location && location.length > 0){
+            this.handleSearch(location);
+            window.location.hash = '#/';
+        }
     }
     render(){
         const {isLoading, temp, location, errorMessage} = this.state;
